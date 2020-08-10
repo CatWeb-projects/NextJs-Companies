@@ -1,14 +1,19 @@
 import React from 'react';
 import Head from 'next/head';
 import { Search } from 'ui/molecules/Search/Search';
+import { getCompanies } from 'services/companies-services';
 
-export interface Finding {
+export interface Findings {
   name: string;
   slug: string;
   idno: string;
 }
 
-export const CompaniesMain = () => {
+interface Props {
+  data: Findings[];
+}
+
+export const CompaniesMain = ({ data }: Props) => {
   return (
     <>
       <Head>
@@ -23,7 +28,7 @@ export const CompaniesMain = () => {
           <span>
             The largest database of companies and employees in Moldova
           </span>
-          <Search />
+          <Search findings={data} />
         </div>
         <div className="search-container__search-type">
           <span>Search in</span>
@@ -48,4 +53,17 @@ export const CompaniesMain = () => {
       </div>
     </>
   );
+};
+export const getSProps = async (): Promise<{
+  props: {
+    data: Findings[];
+  };
+}> => {
+  const data = await getCompanies(null);
+  const propsData = data;
+  return {
+    props: {
+      data
+    }
+  };
 };

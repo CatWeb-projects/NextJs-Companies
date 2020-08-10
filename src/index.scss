@@ -13,10 +13,9 @@
   &__holder {
     width: 100%;
     max-width: 1000px;
-    margin: 0 auto;
+    margin: auto auto 0 auto;
     height: auto;
     padding: 0 15px;
-    margin-top: auto;
     @include flex-column;
     > span {
       margin-bottom: 60px;
@@ -35,6 +34,7 @@
       height: 67px;
       border: 1px solid #9aabc2;
       background: #fff;
+      color: #9aabc2;
       border-radius: 33px;
       box-shadow: 0px 3px 11.52px 0.48px rgba(34, 45, 56, 0.07);
       width: 100%;
@@ -69,26 +69,53 @@
     label {
       margin-left: 12px;
       padding: 5px 15px;
-      border: 1px solid #467bbc;
+      border: 1px solid #ccd5e0;
       border-radius: 50px;
       cursor: pointer;
+      transition: 0.5s;
+    }
+    label:hover {
+      border-color: #467bbc;
+      color: #467bbc;
     }
   }
 }
 .copyright-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1270px;
   width: 100%;
+  padding: 20px;
   height: auto;
   margin-top: auto;
   display: flex;
   justify-content: space-between;
-  padding: 20px;
   font-size: 14px;
   a,
   span {
     margin: 0 7px;
     color: #467bbd;
   }
-  &__informer {
-    color: rgba(0, 0, 0, 0.65);
+  &__informer span {
+    color: rgba(0, 0, 0, 0.65) !important;
+  }
+}
+.finded-container {
+  width: 100%;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top: none !important;
+  border: 1px solid #467bbc;
+}
+.finded {
+  width: 100%;
+  padding: 10px 25px;
+  color: #000;
+}
+.finded:hover {
+  background-color: #97defe;
+  cursor: pointer;
+  a {
+    color: #000;
   }
 }
