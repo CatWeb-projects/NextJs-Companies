@@ -24,7 +24,7 @@ export const CompaniesMain = ({ data }: Props) => {
       </Head>
       <div className="search-container">
         <div className="search-container__holder">
-          <img src="Logo.png" alt="" />
+          <img src="/Logo.png" alt="" />
           <span>
             The largest database of companies and employees in Moldova
           </span>

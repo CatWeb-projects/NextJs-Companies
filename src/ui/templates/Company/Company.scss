@@ -1,0 +1,72 @@
+@mixin flex {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.company-container {
+  width: 100%;
+  min-height: 100vh;
+  &__header {
+    // position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 50px;
+    z-index: 2;
+    background: #fff;
+    border-bottom: 1px solid #e5edf9;
+  }
+  &__nav {
+    max-width: 1270px;
+    margin: 0 auto;
+    @include flex;
+    height: 50px;
+  }
+  &__nav-search {
+    margin-left: 130px;
+    line-height: 10px;
+    width: 640px;
+    position: relative;
+    input {
+      border: 1px solid #dce2ea;
+      border-radius: 33px;
+      width: 100%;
+      padding-left: 40px;
+      transition: all 0.3s ease;
+      height: 37px !important;
+      background: #f6f8fb !important;
+      font-size: 14px !important;
+      line-height: 36px;
+      outline: none;
+      border: 1px solid #9aabc2;
+    }
+    input:focus {
+      border: 1px solid #364c62;
+    }
+    input:hover {
+      border-color: #467bbc !important;
+    }
+    i {
+      position: absolute;
+      left: 14px;
+      right: auto;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #364c62;
+      font-size: 14px;
+    }
+    > a:hover {
+      text-decoration: none;
+      color: #364c62;
+    }
+  }
+  &__nav-link {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #364c62;
+    font-size: 14px;
+  }
+}

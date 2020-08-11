@@ -1,3 +1,3 @@
 import { CompaniesMain } from '../src/index';
-export const Main = CompaniesMain;
-export default CompaniesMain;
+const Main = CompaniesMain;
+export default Main;
