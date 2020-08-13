@@ -13,6 +13,6 @@ export const getCompanies = (name: string | null): Promise<Findings[]> => {
     .then((res) => res.data.data);
 };
 
-export const getCompany = () => {
-  return axios.get(`${baseUrl}company?slug=`).then((res) => res.data);
+export const getCompany = (name: any) => {
+  return axios.get(`${baseUrl}company?slug=${name}`).then((res) => res.data);
 };

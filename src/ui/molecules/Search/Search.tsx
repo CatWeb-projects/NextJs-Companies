@@ -14,7 +14,6 @@ export const Search = ({ findings }: Props) => {
   const getCompaniesList = async (name: string) => {
     try {
       const res = await getCompanies(name);
-      console.log(res);
       setData(res);
     } catch (error) {
       // eslint-disable-next-line
@@ -23,10 +22,11 @@ export const Search = ({ findings }: Props) => {
   };
 
   useEffect(() => {
-    if (searchValue === '') {
+    if (searchValue === '' || data?.length === 0) {
       setData(null);
     } else {
       setData(data);
+      setSearchValue('');
     }
   }, [data]);
 
@@ -52,14 +52,17 @@ export const Search = ({ findings }: Props) => {
       <div className="search-container__search-area">
         <input
           value={searchValue}
-          style={data ? searchStyle : undefined}
+          style={data && searchValue ? searchStyle : undefined}
           type="text"
           placeholder="Search from 226 515 companies"
           onChange={searchCompanies}
         />
         <i className="fas fa-search"></i>
       </div>
-      <div className="finded-container" style={data ? dataStyle : undefined}>
+      <div
+        className="finded-container company-small-finded"
+        style={data ? dataStyle : undefined}
+      >
         {data &&
           data.map((company: any) => (
             <Link

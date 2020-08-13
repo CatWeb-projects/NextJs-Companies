@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { Search } from 'ui/molecules/Search/Search';
 import { getCompanies } from 'services/companies-services';
+import { Footer } from 'ui/molecules/Footer/Footer';
 
 export interface Findings {
   name: string;
@@ -39,17 +40,7 @@ export const CompaniesMain = ({ data }: Props) => {
             <span>Persons</span>
           </label>
         </div>
-        <div className="copyright-container">
-          <div className="copyright-container__support">
-            <span>English</span>
-            <a href="#">Login</a>
-            <a href="#">View All</a>
-            <a href="#">Help & Support</a>
-          </div>
-          <div className="copyright-container__informer">
-            <span>© 2020 informer.md</span>
-          </div>
-        </div>
+        <Footer />
       </div>
     </>
   );
