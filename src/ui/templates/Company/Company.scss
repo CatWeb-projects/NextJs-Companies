@@ -271,6 +271,14 @@
       margin-bottom: 10px;
     }
   }
+  &__email span:last-child,
+  &__phone span:nth-child(n + 2) {
+    cursor: pointer;
+  }
+  &__email span:last-child:hover,
+  &__phone span:nth-child(n + 2):hover {
+    color: #0f62c2;
+  }
   &__website {
     display: flex;
     flex-direction: column;

@@ -105,6 +105,10 @@
 }
 .finded-container {
   border-top: none !important;
+  > div:last-child:hover {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
 }
 .finded {
   width: 100%;

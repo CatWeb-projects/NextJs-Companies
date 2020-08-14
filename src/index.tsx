@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { Search } from 'ui/molecules/Search/Search';
-import { getCompanies } from 'services/companies-services';
+import { getAllCompanies } from 'services/companies-services';
 import { Footer } from 'ui/molecules/Footer/Footer';
 
 export interface Findings {
@@ -45,16 +45,16 @@ export const CompaniesMain = ({ data }: Props) => {
     </>
   );
 };
-export const getSProps = async (): Promise<{
-  props: {
-    data: Findings[];
-  };
-}> => {
-  const data = await getCompanies(null);
-  const propsData = data;
-  return {
-    props: {
-      data
-    }
-  };
-};
+// export const getSProps = async (): Promise<{
+//   props: {
+//     data: Findings[];
+//   };
+// }> => {
+//   const data = await getCompanies.request();
+//   const propsData = data;
+//   return {
+//     props: {
+//       data
+//     }
+//   };
+// };

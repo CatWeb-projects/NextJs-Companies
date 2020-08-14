@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { Search } from 'ui/molecules/Search/Search';
 import { Footer } from 'ui/molecules/Footer/Footer';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import config from '../../../../config';
 
 export const Company = ({ data }: any) => {
   const [company, setCompany] = useState<any>([]);
@@ -71,8 +72,8 @@ export const Company = ({ data }: any) => {
                             7,
                             company.history[0].company_url.length
                           )}/`
-                        : company.history[0].company_name
-                      : ''
+                        : '/placeholder.png'
+                      : '/placeholder.png'
                   }
                   alt=""
                 />
@@ -166,30 +167,42 @@ export const Company = ({ data }: any) => {
                   <div className="company-card-contact-info__email">
                     <span>EMAIL:</span>
                     <span>
-                      <i className="far fa-envelope"></i>
+                      {company.general_data ? (
+                        company.general_data.contact_info.emails[0] ? (
+                          <i className="far fa-envelope"></i>
+                        ) : null
+                      ) : null}
                       {company.general_data
                         ? company.general_data.contact_info.emails[0]
                           ? 'Email'
-                          : ''
+                          : null
                         : null}
                     </span>
                   </div>
                   <div className="company-card-contact-info__phone">
                     <span>PHONE/CELL PHONE/FAX:</span>
                     <span>
-                      <i className="fas fa-phone"></i>
+                      {company.general_data ? (
+                        company.general_data.contact_info.phones[0] ? (
+                          <i className="fas fa-phone"></i>
+                        ) : null
+                      ) : null}
                       {company.general_data
                         ? company.general_data.contact_info.phones[0]
                           ? 'Phone'
-                          : ''
+                          : null
                         : null}
                     </span>
                     <span>
-                      <i className="fas fa-fax"></i>{' '}
+                      {company.general_data ? (
+                        company.general_data.contact_info.faxes[0] ? (
+                          <i className="fas fa-fax"></i>
+                        ) : null
+                      ) : null}
                       {company.general_data
                         ? company.general_data.contact_info.faxes[0]
                           ? 'Fax'
-                          : ''
+                          : null
                         : null}
                     </span>
                   </div>
@@ -223,27 +236,35 @@ export const Company = ({ data }: any) => {
               </div>
               <div className="company-card-contact-info__map">
                 {company.general_data ? (
-                  <LoadScript googleMapsApiKey="AIzaSyC_0fh12-DVjt8WuY8llmg0Q7m14wRkDsg">
+                  <LoadScript googleMapsApiKey={config.map_key}>
                     <GoogleMap
                       mapContainerClassName="company-card-contact-info__google-map"
                       center={{
-                        lat:
-                          company.general_data.contact_info.address_de_facto
-                            .additional.lat,
-                        lng:
-                          company.general_data.contact_info.address_de_facto
-                            .additional.long
+                        lat: company.general_data.contact_info.address_de_facto
+                          .additional
+                          ? company.general_data.contact_info.address_de_facto
+                              .additional.lat
+                          : 47.00556,
+                        lng: company.general_data.contact_info.address_de_facto
+                          .additional
+                          ? company.general_data.contact_info.address_de_facto
+                              .additional.long
+                          : 28.8575
                       }}
-                      zoom={17}
+                      zoom={16}
                     >
                       <Marker
                         position={{
-                          lat:
-                            company.general_data.contact_info.address_de_facto
-                              .additional.lat,
-                          lng:
-                            company.general_data.contact_info.address_de_facto
-                              .additional.long
+                          lat: company.general_data.contact_info
+                            .address_de_facto.additional
+                            ? company.general_data.contact_info.address_de_facto
+                                .additional.lat
+                            : 0,
+                          lng: company.general_data.contact_info
+                            .address_de_facto.additional
+                            ? company.general_data.contact_info.address_de_facto
+                                .additional.long
+                            : 0
                         }}
                         label={company.name}
                       />
@@ -262,8 +283,8 @@ export const Company = ({ data }: any) => {
             </span>
           </div>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };

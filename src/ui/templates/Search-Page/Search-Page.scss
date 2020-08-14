@@ -1,0 +1,21 @@
+.search-container-page {
+  &__nav {
+    padding: 11px 0;
+    max-width: 1270px;
+    margin: 0 auto;
+    border-bottom: 1px solid #e5edf9;
+  }
+  &__search-layout {
+    background: #f5f8fb;
+    border-bottom: 1px solid #cdd5e1;
+  }
+  &__search {
+    max-width: 1270px;
+    margin: 0 auto;
+    padding: 20px 0;
+  }
+  .search-type-info {
+    margin-top: 10px !important;
+    margin-bottom: 15px;
+  }
+}

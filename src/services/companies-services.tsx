@@ -1,16 +1,40 @@
 import axios from 'axios';
 import { Findings } from 'index';
 
+const { CancelToken } = axios;
+
 const baseUrl = 'https://app.informer.md/api/public/';
-export const getCompanies = (name: string | null): Promise<Findings[]> => {
-  if (name) {
-    return axios
-      .get(`${baseUrl}search?per_page=5&company_name=${name}`)
-      .then((res) => res.data.data);
-  }
-  return axios
-    .get(`${baseUrl}search?per_page=100`)
-    .then((res) => res.data.data);
+export const getAllCompanies = {
+  cancel: () => {},
+  request: () =>
+    axios
+      .get(`${baseUrl}search?per_page=100`, {
+        cancelToken: new CancelToken((c) => (getAllCompanies.cancel = c))
+      })
+      .then((res) => res.data.data)
+};
+
+export const getCompanies = {
+  cancel: () => {},
+  request: (name: string) =>
+    axios
+      .get(`${baseUrl}search?per_page=5&company_name=${name}`, {
+        cancelToken: new CancelToken((c) => (getAllCompanies.cancel = c))
+      })
+      .then((res) => res.data.data)
+};
+
+export const listCompanies = {
+  cancel: () => {},
+  request: (name: string) =>
+    axios
+      .get(
+        `https://app.informer.md/api/public/search?page=4&per_page=25&company_name=${name}`,
+        {
+          cancelToken: new CancelToken((c) => (listCompanies.cancel = c))
+        }
+      )
+      .then((response) => response.data)
 };
 
 export const getCompany = (name: any) => {
