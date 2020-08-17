@@ -40,8 +40,8 @@ export const CompaniesMain = ({ data }: Props) => {
             <span>Persons</span>
           </label>
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 };

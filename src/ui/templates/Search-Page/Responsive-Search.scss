@@ -1,0 +1,28 @@
+@media screen and (max-width: 1270px) {
+  .search-container-page {
+    &__nav {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+    &__data {
+      margin-left: 15px;
+    }
+  }
+  .search-container__search-area,
+  .search-layout-content {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .search-list-content {
+    flex-direction: column;
+    > .card-list {
+      width: 100%;
+    }
+    > div {
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

@@ -26,10 +26,10 @@ export const getCompanies = {
 
 export const listCompanies = {
   cancel: () => {},
-  request: (name: string) =>
+  request: (name: string | string[]) =>
     axios
       .get(
-        `https://app.informer.md/api/public/search?page=4&per_page=25&company_name=${name}`,
+        `https://app.informer.md/api/public/search?page=1&per_page=25&company_name=${name}`,
         {
           cancelToken: new CancelToken((c) => (listCompanies.cancel = c))
         }
@@ -37,6 +37,12 @@ export const listCompanies = {
       .then((response) => response.data)
 };
 
-export const getCompany = (name: any) => {
-  return axios.get(`${baseUrl}company?slug=${name}`).then((res) => res.data);
+export const getCompany = {
+  cancel: () => {},
+  request: (name: string | string[]) =>
+    axios
+      .get(`${baseUrl}company?slug=${name}`, {
+        cancelToken: new CancelToken((c) => (getCompany.cancel = c))
+      })
+      .then((res) => res.data)
 };

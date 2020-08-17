@@ -6,6 +6,7 @@ import {
   getAllCompanies,
   listCompanies
 } from 'services/companies-services';
+import { useRouter } from 'next/router';
 
 interface Props {
   findings: Findings[];
@@ -19,6 +20,7 @@ export const Search = ({ findings }: Props) => {
   const [allCompanies, setAllCompanies] = useState<Findings[]>([]);
   const [searchList, setSearchList] = useState<string>('');
   const [companyList, setCompanyList] = useState<Findings[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const getCompaniesData = async () => {
@@ -103,8 +105,7 @@ export const Search = ({ findings }: Props) => {
     e.preventDefault();
     setSearchList(searchValue);
     setSearchValue('');
-    console.log(companyList);
-    // router.push('')
+    router.push(`/search/?slug=${searchValue}`);
   };
 
   return (

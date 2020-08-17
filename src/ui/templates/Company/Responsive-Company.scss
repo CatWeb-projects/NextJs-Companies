@@ -1,0 +1,78 @@
+@media screen and (max-width: 1270px) {
+  .company-container {
+    padding-right: 15px;
+    padding-left: 15px;
+    &__nav-search i {
+      left: 30px;
+    }
+    &__nav {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
+  }
+  .company-card-contact-info {
+    flex-wrap: wrap;
+  }
+  .company-card-contact-info__map {
+    min-height: 350px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .company-container {
+    &__nav-search {
+      margin-left: 0;
+    }
+  }
+  .company-content {
+    &__industry {
+      justify-content: center;
+    }
+    &__profile {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      > span {
+        padding: 0;
+      }
+    }
+  }
+  .company-content-data {
+    flex-direction: column;
+    &__card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .company-card-wrapper {
+    flex-direction: column;
+    &__card:nth-child(n) {
+      margin: 10px 0 0;
+    }
+  }
+}
+@media screen and (max-width: 576px) {
+  .company-card-wrapper {
+    &__table {
+      display: flex;
+      flex-direction: column;
+      > div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+  .company-card-contact-info {
+    &__info {
+      flex-direction: column;
+      align-items: center;
+    }
+    &__website,
+    &__info > div {
+      align-items: center;
+    }
+  }
+}
