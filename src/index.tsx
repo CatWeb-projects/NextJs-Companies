@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import { Search } from 'ui/molecules/Search/Search';
-import { getAllCompanies } from 'services/companies-services';
 import { Footer } from 'ui/molecules/Footer/Footer';
 
 export interface Findings {
@@ -10,7 +9,7 @@ export interface Findings {
   idno: string;
 }
 
-interface Props {
+export interface Props {
   data: Findings[];
 }
 
@@ -29,7 +28,7 @@ export const CompaniesMain = ({ data }: Props) => {
           <span>
             The largest database of companies and employees in Moldova
           </span>
-          <Search findings={data} />
+          <Search />
         </div>
         <div className="search-container__search-type">
           <span>Search in</span>
@@ -45,16 +44,3 @@ export const CompaniesMain = ({ data }: Props) => {
     </>
   );
 };
-// export const getSProps = async (): Promise<{
-//   props: {
-//     data: Findings[];
-//   };
-// }> => {
-//   const data = await getCompanies.request();
-//   const propsData = data;
-//   return {
-//     props: {
-//       data
-//     }
-//   };
-// };

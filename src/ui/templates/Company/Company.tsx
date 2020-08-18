@@ -8,8 +8,44 @@ import { Footer } from 'ui/molecules/Footer/Footer';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import config from '../../../../config';
 
-export const Company = ({ data }: any) => {
-  const [company, setCompany] = useState<any>([]);
+export interface GeneralData {
+  partners: any;
+  email: string | null;
+  phone: string | null;
+  mobile: string | null;
+  industry: string;
+  employees: string;
+  creation_year: number;
+  name: string;
+  location: any;
+  slug: any;
+  website: string | null;
+  business_hours: [];
+  contact_info: [] | {};
+  creation_date: string;
+  description: string;
+  idno: string;
+  size: {};
+  turnover: [];
+}
+
+export interface Company {
+  general_data: GeneralData[];
+  history: [];
+}
+export interface Data {
+  idno: string | number | null | undefined;
+  data: GeneralData;
+}
+
+export interface Hour {
+  title: string;
+  value: string;
+}
+
+export const Company = ({ data }: Data) => {
+  const [company, setCompany] = useState<Company[]>([]);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -17,12 +53,8 @@ export const Company = ({ data }: any) => {
       if (router.query.slug) {
         try {
           const companyInfo = await getCompany.request(router.query.slug);
-          console.log(companyInfo);
           setCompany(companyInfo);
-        } catch (error) {
-          // eslint-disable-next-line
-          console.error(error);
-        }
+        } catch (error) {}
       }
     };
     getCompanyInfo();
@@ -47,7 +79,7 @@ export const Company = ({ data }: any) => {
               </Link>
             </div>
             <div className="company-container__nav-search">
-              <Search findings={data} />
+              <Search />
               <a href="">
                 <i className="fas fa-search"></i>
               </a>
@@ -145,7 +177,7 @@ export const Company = ({ data }: any) => {
                 </div>
                 <div className="company-card-wrapper__card-content">
                   {company.general_data
-                    ? company.general_data.business_hours.map((hour: any) => (
+                    ? company.general_data.business_hours.map((hour: Hour) => (
                         <div
                           key={hour.title}
                           className="company-card-wrapper__table"
@@ -231,52 +263,53 @@ export const Company = ({ data }: any) => {
                 </div>
               </div>
               <div className="company-card-contact-info__card google-maps-container">
-                <div className="company-card-contact-info__info-map">
-                  <span>
-                    <i className="fas fa-map-marker-alt"></i>
-                    {company.general_data
-                      ? company.general_data.contact_info.address_de_facto.title
-                      : null}
-                  </span>
-                </div>
+                {company.general_data.contact_info.address_de_facto.title ? (
+                  <div className="company-card-contact-info__info-map">
+                    <span>
+                      <i className="fas fa-map-marker-alt"></i>
+                      {company.general_data.contact_info.address_de_facto.title}
+                    </span>
+                  </div>
+                ) : (
+                  ''
+                )}
                 <div className="company-card-contact-info__map">
-                  {company.general_data ? (
+                  {company.general_data.contact_info.address_de_facto
+                    .additional &&
+                  company.general_data.contact_info.address_de_facto.additional
+                    .lat &&
+                  company.general_data.contact_info.address_de_facto.additional
+                    .long ? (
                     <LoadScript googleMapsApiKey={config.map_key}>
                       <GoogleMap
                         mapContainerClassName="company-card-contact-info__google-map"
                         center={{
-                          lat: company.general_data.contact_info
-                            .address_de_facto.additional
-                            ? company.general_data.contact_info.address_de_facto
-                                .additional.lat
-                            : 47.00556,
-                          lng: company.general_data.contact_info
-                            .address_de_facto.additional
-                            ? company.general_data.contact_info.address_de_facto
-                                .additional.long
-                            : 28.8575
+                          lat:
+                            company.general_data.contact_info.address_de_facto
+                              .additional.lat,
+                          lng:
+                            company.general_data.contact_info.address_de_facto
+                              .additional.long
                         }}
                         zoom={16}
                       >
                         <Marker
                           position={{
-                            lat: company.general_data.contact_info
-                              .address_de_facto.additional
-                              ? company.general_data.contact_info
-                                  .address_de_facto.additional.lat
-                              : 0,
-                            lng: company.general_data.contact_info
-                              .address_de_facto.additional
-                              ? company.general_data.contact_info
-                                  .address_de_facto.additional.long
-                              : 0
+                            lat:
+                              company.general_data.contact_info.address_de_facto
+                                .additional.lat,
+                            lng:
+                              company.general_data.contact_info.address_de_facto
+                                .additional.long
                           }}
                           label={company.name}
                         />
                       </GoogleMap>
                     </LoadScript>
                   ) : (
-                    <p>No Data for Map</p>
+                    <div className="no-map-data">
+                      <img src="/geo.png" alt="" />
+                    </div>
                   )}
                 </div>
               </div>
@@ -299,4 +332,22 @@ export const Company = ({ data }: any) => {
       <Footer />
     </>
   );
+};
+
+interface Querry {
+  query: {
+    slug: string;
+  };
+}
+
+Company.getInitialProps = async (
+  ctx: Querry
+): Promise<{
+  data: Data;
+}> => {
+  const x = ctx.query.slug;
+  const data = await getCompany.request(x);
+  return {
+    data
+  };
 };

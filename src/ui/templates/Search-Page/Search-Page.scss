@@ -186,3 +186,26 @@
 .no-absolute {
   position: static;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > li {
+    margin: 0 10px;
+  }
+  a {
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 12px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    outline: none;
+    padding: 8px 12px;
+    transition: 0.3s;
+  }
+  a:hover {
+    color: #1890ff;
+    border-color: #1890ff;
+  }
+}

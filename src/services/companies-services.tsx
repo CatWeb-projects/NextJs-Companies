@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Findings } from 'index';
 
 const { CancelToken } = axios;
 
@@ -29,7 +28,7 @@ export const listCompanies = {
   request: (name: string | string[]) =>
     axios
       .get(
-        `https://app.informer.md/api/public/search?page=1&per_page=25&company_name=${name}`,
+        `https://app.informer.md/api/public/search?page=1&per_page=100&company_name=${name}`,
         {
           cancelToken: new CancelToken((c) => (listCompanies.cancel = c))
         }
@@ -39,7 +38,7 @@ export const listCompanies = {
 
 export const getCompany = {
   cancel: () => {},
-  request: (name: string | string[]) =>
+  request: (name: string | string[] | null) =>
     axios
       .get(`${baseUrl}company?slug=${name}`, {
         cancelToken: new CancelToken((c) => (getCompany.cancel = c))

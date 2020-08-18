@@ -336,3 +336,10 @@
     font-weight: 800;
   }
 }
+.no-map-data {
+  img {
+    max-height: 270px;
+    object-fit: cover;
+    width: 100%;
+  }
+}

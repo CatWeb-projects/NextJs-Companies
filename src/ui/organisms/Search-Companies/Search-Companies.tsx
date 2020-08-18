@@ -1,8 +1,30 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
+import { GeneralData } from 'ui/templates/Company/Company';
 
-export const SearchCompanies = ({ propsData }: any) => {
+export interface PropsData {
+  propsData: GeneralData;
+}
+export interface FindedCompany {
+  creation_year: 2000;
+  email: true;
+  employees: '10-49';
+  id: 1025;
+  idno: '1003600038566';
+  industry: 'Depozitarea și prelucrarea produselor agricole';
+  location: 'or.Otaci';
+  mobile: true;
+  name: 'ULEINORD';
+  parent_id: null;
+  partners: ['COMPANIA TREZEME LIMITED '];
+  phone: null;
+  slug: 'uleinord';
+  turnover: 39382000;
+  website: nu;
+}
+
+export const SearchCompanies = ({ propsData }: PropsData) => {
   const years = (thisDay: number) => {
     let today = new Date();
     let dateTime = dayjs(today).format('YYYY');
@@ -101,7 +123,9 @@ export const SearchCompanies = ({ propsData }: any) => {
           <span>
             Founders of the company:{' '}
             <strong>
-              {propsData.partners.map((partner: any) => `${partner}, `)}
+              {propsData
+                ? propsData.partners.map((partner: any) => `${partner}, `)
+                : null}
             </strong>
           </span>
         </div>

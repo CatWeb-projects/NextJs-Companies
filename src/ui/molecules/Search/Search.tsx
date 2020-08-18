@@ -8,11 +8,7 @@ import {
 } from 'services/companies-services';
 import { useRouter } from 'next/router';
 
-interface Props {
-  findings: Findings[];
-}
-
-export const Search = ({ findings }: Props) => {
+export const Search = () => {
   const [searchCompaniesData, setSearchCompaniesData] = useState<
     Findings[] | null
   >(null);
@@ -27,10 +23,7 @@ export const Search = ({ findings }: Props) => {
       try {
         const saveData = await getAllCompanies.request();
         setAllCompanies(saveData);
-        console.log(saveData);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     getCompaniesData();
     return () => {
@@ -44,10 +37,7 @@ export const Search = ({ findings }: Props) => {
         try {
           const saveData = await getCompanies.request(searchValue);
           setSearchCompaniesData(saveData);
-        } catch (error) {
-          // eslint-disable-next-line
-          console.log(error);
-        }
+        } catch (error) {}
       } else {
         setSearchCompaniesData(null);
         setSearchValue('');
@@ -67,7 +57,10 @@ export const Search = ({ findings }: Props) => {
     }
   }, [searchCompaniesData]);
 
-  const searchCompanies = (e: any) => {
+  const searchCompanies = (e: {
+    preventDefault: () => void;
+    target: { value: React.SetStateAction<string> };
+  }) => {
     e.preventDefault();
     setSearchValue(e.target.value);
   };
@@ -89,10 +82,7 @@ export const Search = ({ findings }: Props) => {
       try {
         const saveData = await listCompanies.request(searchList);
         setCompanyList(saveData.data);
-      } catch (error) {
-        // eslint-disable-next-line
-        // console.log(error);
-      }
+      } catch (error) {}
     };
     getData();
 
@@ -101,7 +91,7 @@ export const Search = ({ findings }: Props) => {
     };
   }, [searchValue]);
 
-  const addSubmit = (e: any) => {
+  const addSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setSearchList(searchValue);
     setSearchValue('');
@@ -127,7 +117,7 @@ export const Search = ({ findings }: Props) => {
         style={searchCompaniesData ? dataStyle : undefined}
       >
         {searchCompaniesData &&
-          searchCompaniesData.map((company: any) => (
+          searchCompaniesData.map((company: Findings) => (
             <Link
               key={company.idno}
               href="/company/[slug]"
