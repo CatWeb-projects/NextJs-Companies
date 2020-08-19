@@ -9,7 +9,7 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import config from '../../../../config';
 
 export interface GeneralData {
-  partners: any;
+  partners: string[];
   email: string | null;
   phone: string | null;
   mobile: string | null;
@@ -20,18 +20,33 @@ export interface GeneralData {
   location: any;
   slug: any;
   website: string | null;
-  business_hours: [];
+  business_hours: string[];
   contact_info: [] | {};
-  creation_date: string;
+  creation_date: string | string[] | null;
   description: string;
   idno: string;
-  size: {};
-  turnover: [];
+  size: {
+    name: string;
+  };
+  turnover: string[];
 }
 
 export interface Company {
+  idno: string | number | null | undefined;
   general_data: GeneralData[];
-  history: [];
+  history: string[];
+  creation_year: number;
+  email: boolean;
+  employees: string;
+  industry: string;
+  location: string;
+  mobile: boolean;
+  name: string;
+  phone: boolean;
+  slug: string;
+  turnover: number;
+  website: string;
+  partners: string[];
 }
 export interface Data {
   idno: string | number | null | undefined;
@@ -280,7 +295,7 @@ export const Company = ({ data }: Data) => {
                     .lat &&
                   company.general_data.contact_info.address_de_facto.additional
                     .long ? (
-                    <LoadScript googleMapsApiKey={config.map_key}>
+                    <LoadScript googleMapsApiKey={process.env.MAP_KEY}>
                       <GoogleMap
                         mapContainerClassName="company-card-contact-info__google-map"
                         center={{
@@ -308,6 +323,7 @@ export const Company = ({ data }: Data) => {
                     </LoadScript>
                   ) : (
                     <div className="no-map-data">
+                      <h2>No Map Data</h2>
                       <img src="/geo.png" alt="" />
                     </div>
                   )}

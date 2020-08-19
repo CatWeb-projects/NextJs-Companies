@@ -28,6 +28,7 @@ export const Search = () => {
     getCompaniesData();
     return () => {
       getAllCompanies.cancel();
+      listCompanies.cancel();
     };
   }, []);
 
@@ -85,17 +86,17 @@ export const Search = () => {
       } catch (error) {}
     };
     getData();
-
-    return () => {
-      listCompanies.cancel();
-    };
-  }, [searchValue]);
+  }, [searchList]);
 
   const addSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setSearchList(searchValue);
     setSearchValue('');
     router.push(`/search/?slug=${searchValue}`);
+  };
+
+  const resetInput = () => {
+    setSearchValue('');
   };
 
   return (
@@ -123,7 +124,7 @@ export const Search = () => {
               href="/company/[slug]"
               as={`/company/${company.slug}`}
             >
-              <div className="finded">
+              <div className="finded" onClick={resetInput}>
                 <a>{`${company.name} • ${company.idno}`}</a>
               </div>
             </Link>

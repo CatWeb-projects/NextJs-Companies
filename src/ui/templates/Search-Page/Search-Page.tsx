@@ -5,25 +5,9 @@ import { Search } from 'ui/molecules/Search/Search';
 import { Footer } from 'ui/molecules/Footer/Footer';
 import { SearchCompanies } from 'ui/organisms/Search-Companies/Search-Companies';
 import { useRouter } from 'next/router';
-import { listCompanies } from 'services/companies-services';
+import { listCompanies, getAllCompanies } from 'services/companies-services';
 import { Company, Data } from '../Company/Company';
 import { Pagination } from 'ui/molecules/Pagination/Pagination';
-
-export interface FindedCompany {
-  creation_year: number;
-  email: boolean;
-  employees: string;
-  idno: string;
-  industry: string;
-  location: string;
-  mobile: boolean;
-  name: string;
-
-  phone: boolean;
-  slug: string;
-  turnover: number;
-  website: string;
-}
 
 export const SearchPage = ({ data }: Data) => {
   const [company, setCompany] = useState<Company[]>([]);
@@ -32,9 +16,12 @@ export const SearchPage = ({ data }: Data) => {
   const [companiesPerPage, setPostsPerPage] = useState<number>(24);
   const router = useRouter();
 
-  const indexOfLastCompany = currentPage * companiesPerPage;
-  const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
-  const currentCompany = company.slice(indexOfFirstCompany, indexOfLastCompany);
+  useEffect(() => {
+    return () => {
+      getAllCompanies.cancel();
+      listCompanies.cancel();
+    };
+  }, []);
 
   useEffect(() => {
     const getCompanyInfo = async () => {
@@ -48,6 +35,10 @@ export const SearchPage = ({ data }: Data) => {
           console.error(error);
           setLoading(false);
         }
+      } else if (router.query.slug === '') {
+        const companyInfo = await getAllCompanies.request();
+        setCompany(companyInfo);
+        setLoading(false);
       }
     };
     getCompanyInfo();
@@ -61,6 +52,10 @@ export const SearchPage = ({ data }: Data) => {
   const paginate = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
+
+  const indexOfLastCompany = currentPage * companiesPerPage;
+  const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
+  const currentCompany = company.slice(indexOfFirstCompany, indexOfLastCompany);
 
   return (
     <>
@@ -111,9 +106,8 @@ export const SearchPage = ({ data }: Data) => {
             >
               <i className="fas fa-folder-open"></i>
             </div>
-            {company.map((item: any) => console.log(item))}
             {company &&
-              currentCompany.map((item: any) => (
+              currentCompany.map((item) => (
                 <SearchCompanies key={item.idno} propsData={item} />
               ))}
             <Pagination

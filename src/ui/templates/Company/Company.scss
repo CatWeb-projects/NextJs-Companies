@@ -337,9 +337,11 @@
   }
 }
 .no-map-data {
+  height: 100%;
+  @include flex;
+  justify-content: center;
+  flex-direction: column;
   img {
-    max-height: 270px;
-    object-fit: cover;
-    width: 100%;
+    width: 200px;
   }
 }
