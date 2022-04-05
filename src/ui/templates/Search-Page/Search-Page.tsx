@@ -9,11 +9,11 @@ import { listCompanies, getAllCompanies } from 'services/companies-services';
 import { Company, Data } from '../Company/Company';
 import { Pagination } from 'ui/molecules/Pagination/Pagination';
 
-export const SearchPage = ({ data }: Data) => {
+export const SearchPage = () => {
   const [company, setCompany] = useState<Company[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [companiesPerPage, setPostsPerPage] = useState<number>(24);
+  const [companiesPerPage] = useState<number>(24);
   const router = useRouter();
 
   useEffect(() => {

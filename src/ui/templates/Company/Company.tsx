@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import { Search } from 'ui/molecules/Search/Search';
 import { Footer } from 'ui/molecules/Footer/Footer';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import config from '../../../../config';
 
 export interface GeneralData {
   partners: string[];
@@ -20,21 +19,43 @@ export interface GeneralData {
   location: any;
   slug: any;
   website: string | null;
-  business_hours: string[];
-  contact_info: [] | {};
+  business_hours: {
+    title: string;
+    value: string;
+  }[];
+  contact_info: {
+    emails: string;
+    phones: string;
+    faxes: string;
+    sites: string;
+    address_de_facto: {
+      title: string;
+      additional: {
+        lat: number;
+        long: number;
+      };
+    };
+  };
   creation_date: string | string[] | null;
   description: string;
   idno: string;
   size: {
     name: string;
   };
-  turnover: string[];
+  turnover: {
+    last: number;
+  };
+  special_description: {
+    id: number;
+    title: string;
+  };
 }
 
 export interface Company {
+  turnover: number;
   idno: string | number | null | undefined;
-  general_data: GeneralData[];
-  history: string[];
+  general_data: GeneralData;
+  history: any;
   creation_year: number;
   email: boolean;
   employees: string;
@@ -44,22 +65,20 @@ export interface Company {
   name: string;
   phone: boolean;
   slug: string;
-  turnover: number;
   website: string;
   partners: string[];
+  status: {
+    title: string;
+  };
 }
+
 export interface Data {
   idno: string | number | null | undefined;
   data: GeneralData;
 }
 
-export interface Hour {
-  title: string;
-  value: string;
-}
-
-export const Company = ({ data }: Data) => {
-  const [company, setCompany] = useState<Company[]>([]);
+export const Company = () => {
+  const [company, setCompany] = useState<Company>();
 
   const router = useRouter();
 
@@ -107,18 +126,18 @@ export const Company = ({ data }: Data) => {
             </div>
           </div>
         </div>
-        {company.general_data ? (
+        {company?.general_data ? (
           <div className="company-content">
             <div className="company-content__general">
               <div className="company-content__industry">
                 <div className="company-content__image">
                   <img
                     src={
-                      company.history
-                        ? company.history[0].company_url
+                      company?.history
+                        ? company?.history?.[0]?.company_url
                           ? `https://account.globaldatabase.com/logo/${company.history[0].company_url.substring(
                               7,
-                              company.history[0].company_url.length
+                              company?.history?.[0].company_url.length
                             )}/`
                           : '/placeholder.png'
                         : '/placeholder.png'
@@ -128,16 +147,12 @@ export const Company = ({ data }: Data) => {
                 </div>
                 <div className="company-content__info">
                   <div className="company-content__name">
-                    <span>{company.name}</span>
-                    <span>{company.status ? company.status.title : null}</span>
+                    <span>{company?.name}</span>
+                    <span>{company?.status?.title}</span>
                   </div>
                   <div className="company-content__area">
                     <span>
-                      {company.general_data
-                        ? company.general_data.special_description
-                          ? company.general_data.special_description.title
-                          : null
-                        : null}
+                      {company?.general_data?.special_description?.title}
                     </span>
                   </div>
                 </div>
@@ -155,7 +170,7 @@ export const Company = ({ data }: Data) => {
               <div className="company-content-data__card">
                 <div className="company-content-data__card-header">IDNO</div>
                 <div className="company-content-data__card-content">
-                  {company.general_data ? company.general_data.idno : null}
+                  {company?.general_data?.idno}
                 </div>
               </div>
               <div className="company-content-data__card">
@@ -163,15 +178,13 @@ export const Company = ({ data }: Data) => {
                   Registration year
                 </div>
                 <div className="company-content-data__card-content">
-                  {company.general_data
-                    ? company.general_data.creation_date
-                    : null}
+                  {company?.general_data?.creation_date}
                 </div>
               </div>
               <div className="company-content-data__card">
                 <div className="company-content-data__card-header">Staff</div>
                 <div className="company-content-data__card-content">
-                  {company.general_data ? company.general_data.size.name : null}
+                  {company?.general_data?.size?.name}
                 </div>
               </div>
             </div>
@@ -181,9 +194,7 @@ export const Company = ({ data }: Data) => {
                   Company Profile
                 </div>
                 <div className="company-card-wrapper__card-content">
-                  {company.general_data
-                    ? company.general_data.description
-                    : null}
+                  {company?.general_data?.description}
                 </div>
               </div>
               <div className="company-card-wrapper__card">
@@ -191,21 +202,19 @@ export const Company = ({ data }: Data) => {
                   Workhours
                 </div>
                 <div className="company-card-wrapper__card-content">
-                  {company.general_data
-                    ? company.general_data.business_hours.map((hour: Hour) => (
-                        <div
-                          key={hour.title}
-                          className="company-card-wrapper__table"
-                        >
-                          <div className="company-card-wrapper__day">
-                            {hour.title}
-                          </div>
-                          <div className="company-card-wrapper__hours">
-                            {hour.value}
-                          </div>
-                        </div>
-                      ))
-                    : null}
+                  {company?.general_data?.business_hours.map((hour) => (
+                    <div
+                      key={hour.title}
+                      className="company-card-wrapper__table"
+                    >
+                      <div className="company-card-wrapper__day">
+                        {hour.title}
+                      </div>
+                      <div className="company-card-wrapper__hours">
+                        {hour.value}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -219,66 +228,47 @@ export const Company = ({ data }: Data) => {
                     <div className="company-card-contact-info__email">
                       <span>EMAIL:</span>
                       <span>
-                        {company.general_data ? (
-                          company.general_data.contact_info.emails[0] ? (
-                            <i className="far fa-envelope"></i>
-                          ) : null
+                        {company?.general_data?.contact_info?.emails?.[0] ? (
+                          <i className="far fa-envelope">Email</i>
                         ) : null}
-                        {company.general_data
-                          ? company.general_data.contact_info.emails[0]
-                            ? 'Email'
-                            : null
+                        {company?.general_data?.contact_info?.emails?.[0]
+                          ? 'Email'
                           : null}
                       </span>
                     </div>
                     <div className="company-card-contact-info__phone">
                       <span>PHONE/CELL PHONE/FAX:</span>
                       <span>
-                        {company.general_data ? (
-                          company.general_data.contact_info.phones[0] ? (
-                            <i className="fas fa-phone"></i>
-                          ) : null
+                        {company?.general_data?.contact_info?.phones?.[0] ? (
+                          <i className="fas fa-phone"></i>
                         ) : null}
-                        {company.general_data
-                          ? company.general_data.contact_info.phones[0]
-                            ? 'Phone'
-                            : null
+                        {company?.general_data?.contact_info?.phones?.[0]
+                          ? 'Phone'
                           : null}
                       </span>
                       <span>
-                        {company.general_data ? (
-                          company.general_data.contact_info.faxes[0] ? (
-                            <i className="fas fa-fax"></i>
-                          ) : null
+                        {company?.general_data?.contact_info?.faxes?.[0] ? (
+                          <i className="fas fa-fax"></i>
                         ) : null}
-                        {company.general_data
-                          ? company.general_data.contact_info.faxes[0]
-                            ? 'Fax'
-                            : null
+                        {company?.general_data?.contact_info?.faxes?.[0]
+                          ? 'Fax'
                           : null}
                       </span>
                     </div>
                   </div>
                   <div className="company-card-contact-info__website">
                     <span>WEBSITE :</span>
-                    <a
-                      href={
-                        company.general_data
-                          ? company.general_data.contact_info.sites[0]
-                          : null
-                      }
-                    >
+                    <a href={company?.general_data?.contact_info?.sites?.[0]}>
                       <span>
-                        {company.general_data
-                          ? company.general_data.contact_info.sites[0]
-                          : null}
+                        {company?.general_data?.contact_info?.sites?.[0]}
                       </span>
                     </a>
                   </div>
                 </div>
               </div>
               <div className="company-card-contact-info__card google-maps-container">
-                {company.general_data.contact_info.address_de_facto.title ? (
+                {company?.general_data?.contact_info?.address_de_facto
+                  ?.title ? (
                   <div className="company-card-contact-info__info-map">
                     <span>
                       <i className="fas fa-map-marker-alt"></i>
@@ -289,33 +279,25 @@ export const Company = ({ data }: Data) => {
                   ''
                 )}
                 <div className="company-card-contact-info__map">
-                  {company.general_data.contact_info.address_de_facto
-                    .additional &&
-                  company.general_data.contact_info.address_de_facto.additional
-                    .lat &&
-                  company.general_data.contact_info.address_de_facto.additional
-                    .long ? (
-                    <LoadScript googleMapsApiKey={process.env.MAP_KEY}>
+                  {company?.general_data?.contact_info?.address_de_facto
+                    ?.additional?.long ? (
+                    <LoadScript googleMapsApiKey={`${process.env.MAP_KEY}`}>
                       <GoogleMap
                         mapContainerClassName="company-card-contact-info__google-map"
                         center={{
-                          lat:
-                            company.general_data.contact_info.address_de_facto
-                              .additional.lat,
-                          lng:
-                            company.general_data.contact_info.address_de_facto
-                              .additional.long
+                          lat: company.general_data.contact_info
+                            .address_de_facto.additional.lat,
+                          lng: company.general_data.contact_info
+                            .address_de_facto.additional.long
                         }}
                         zoom={16}
                       >
                         <Marker
                           position={{
-                            lat:
-                              company.general_data.contact_info.address_de_facto
-                                .additional.lat,
-                            lng:
-                              company.general_data.contact_info.address_de_facto
-                                .additional.long
+                            lat: company.general_data.contact_info
+                              .address_de_facto.additional.lat,
+                            lng: company.general_data.contact_info
+                              .address_de_facto.additional.long
                           }}
                           label={company.name}
                         />
@@ -332,11 +314,7 @@ export const Company = ({ data }: Data) => {
             </div>
             <div className="company-turnover">
               <span>Company Turnover :</span>
-              <span>
-                {company.general_data
-                  ? company.general_data.turnover.last
-                  : null}
-              </span>
+              <span>{company?.general_data?.turnover?.last}</span>
             </div>
           </div>
         ) : (
