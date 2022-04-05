@@ -133,13 +133,12 @@ export const Company = () => {
                 <div className="company-content__image">
                   <img
                     src={
-                      company?.history
-                        ? company?.history?.[0]?.company_url
-                          ? `https://account.globaldatabase.com/logo/${company.history[0].company_url.substring(
-                              7,
-                              company?.history?.[0].company_url.length
-                            )}/`
-                          : '/placeholder.png'
+                      company?.general_data?.contact_info?.sites?.[0]
+                        ? `https://account.globaldatabase.com/logo/${company?.general_data?.contact_info?.sites?.[0]?.substring(
+                            7,
+                            company?.general_data?.contact_info?.sites?.[0]
+                              .length
+                          )}/`
                         : '/placeholder.png'
                     }
                     alt=""
