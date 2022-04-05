@@ -17,7 +17,7 @@ export const getCompanies = {
   cancel: () => {},
   request: (name: string) =>
     axios
-      .get(`${baseUrl}search?per_page=5&name=${name}`, {
+      .get(`${baseUrl}search?per_page=5&company_name=${name}`, {
         cancelToken: new CancelToken((c) => (getAllCompanies.cancel = c))
       })
       .then((res) => res.data.data)

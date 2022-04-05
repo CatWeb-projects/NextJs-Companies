@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Findings } from 'index';
 import Link from 'next/link';
-import {
-  getCompanies,
-  getAllCompanies,
-  listCompanies
-} from 'services/companies-services';
+import { getCompanies } from 'services/companies-services';
 import { useRouter } from 'next/router';
 
 export const Search = () => {
@@ -13,24 +9,8 @@ export const Search = () => {
     Findings[] | null
   >(null);
   const [searchValue, setSearchValue] = useState<string>('');
-  const [allCompanies, setAllCompanies] = useState<Findings[]>([]);
-  const [searchList, setSearchList] = useState<string>('');
-  const [companyList, setCompanyList] = useState<Findings[]>([]);
-  const router = useRouter();
 
-  useEffect(() => {
-    const getCompaniesData = async () => {
-      try {
-        const saveData = await getAllCompanies.request();
-        setAllCompanies(saveData);
-      } catch (error) {}
-    };
-    getCompaniesData();
-    return () => {
-      getAllCompanies.cancel();
-      listCompanies.cancel();
-    };
-  }, []);
+  const router = useRouter();
 
   useEffect(() => {
     const getData = async () => {
@@ -78,19 +58,8 @@ export const Search = () => {
     borderBottomRightRadius: '0'
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const saveData = await listCompanies.request(searchList);
-        setCompanyList(saveData.data);
-      } catch (error) {}
-    };
-    getData();
-  }, [searchList]);
-
   const addSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    setSearchList(searchValue);
     setSearchValue('');
     router.push(`/search/?slug=${searchValue}`);
   };
