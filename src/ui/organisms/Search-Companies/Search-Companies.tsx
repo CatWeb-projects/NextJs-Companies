@@ -72,7 +72,7 @@ export const SearchCompanies = ({ propsData }: PropsData) => {
             Turn over:
             <span className="data_text">
               {' '}
-              {propsData.turnover ? propsData.turnover : '---'} MDL
+              {propsData?.turnover ? propsData.turnover : '---'} MDL
             </span>
           </div>
           <div>
