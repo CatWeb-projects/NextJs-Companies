@@ -114,13 +114,7 @@ export const Company = () => {
             </div>
             <div className="company-container__nav-search">
               <Search />
-              <a href="">
-                <i className="fas fa-search"></i>
-              </a>
-              <a
-                className="company-container__nav-link"
-                href="/en/ls/list/companies/page/1"
-              >
+              <a className="company-container__nav-link" href="/search?slug=">
                 Show all
               </a>
             </div>
